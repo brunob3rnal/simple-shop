@@ -24,6 +24,15 @@ php artisan db:seed --class=ProductSeeder
 
 Si no hay productos, el catálogo muestra `No hay productos disponibles`.
 
+## Carrito (BRAVOBRAVO-14)
+
+Cada producto del catálogo tiene un botón "Agregar al carrito". El carrito se ve en `/carrito` (enlace "Carrito" en la cabecera) y lo puede usar cualquier visitante, sin iniciar sesión.
+
+- **Dónde vive:** en la sesión de Laravel (Sprint 1); en el Sprint 2 pasará a la base de datos. Toda la lógica está en `App\Services\CartService`.
+- **Qué guarda:** solo el id del producto y la cantidad. Los precios, subtotales y el total se calculan siempre en el servidor con los precios de la base de datos, en centavos USD.
+- **Cantidades:** agregar un producto que ya está en el carrito sube su cantidad en 1, sin máximo. Quitar productos y cambiar cantidades no está en el Sprint 1.
+- **Sesión:** al iniciar sesión el carrito se conserva; al cerrar sesión se vacía. El carrito de un visitante se pierde a los 120 minutos sin actividad (`SESSION_LIFETIME`).
+
 ## Stripe (spike, BRAVOBRAVO-15)
 
 Prueba de concepto de pago con **Stripe Checkout alojado** en **modo prueba**.

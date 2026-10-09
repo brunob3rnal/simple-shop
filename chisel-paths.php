@@ -3,7 +3,7 @@
 return [
     'login' => 'resources/js/pages/auth/Login.vue',
     'register' => 'resources/js/pages/auth/Register.vue',
-    'welcome' => 'resources/js/pages/Catalog.vue',
+    'welcome' => 'resources/js/layouts/StoreLayout.vue',
     'profile' => 'resources/js/pages/settings/Profile.vue',
     'security' => 'resources/js/pages/settings/Security.vue',
     'verify_email' => 'resources/js/pages/auth/VerifyEmail.vue',

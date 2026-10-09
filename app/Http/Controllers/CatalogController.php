@@ -10,6 +10,8 @@ class CatalogController extends Controller
 {
     private const EMPTY_MESSAGE = 'No hay productos disponibles';
 
+    private const ADD_TO_CART_LABEL = 'Agregar al carrito';
+
     public function __invoke(): Response
     {
         $products = Product::orderBy('id')
@@ -24,6 +26,7 @@ class CatalogController extends Controller
         return Inertia::render('Catalog', [
             'products' => $products,
             'emptyMessage' => $products->isEmpty() ? self::EMPTY_MESSAGE : null,
+            'addToCartLabel' => self::ADD_TO_CART_LABEL,
         ]);
     }
 }

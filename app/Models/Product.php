@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Money;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -38,6 +39,6 @@ class Product extends Model
      */
     public function priceLabel(): string
     {
-        return '$'.number_format($this->price_cents / 100, 2);
+        return Money::usd($this->price_cents);
     }
 }
