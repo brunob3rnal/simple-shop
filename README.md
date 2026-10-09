@@ -2,3 +2,43 @@
 
 Laravel + Vue (Inertia). Moneda USD; los precios se manejan como enteros en centavos.
 Las specs están en `specs/` (Spec-Driven Development).
+
+## Stripe (spike, BRAVOBRAVO-15)
+
+Prueba de concepto de pago con **Stripe Checkout alojado** en **modo prueba**.
+Página del spike: `/spike/stripe` (producto y precio fijos, sin login ni carrito).
+
+### Claves necesarias
+
+| Variable | Qué es | Dónde se obtiene |
+|---|---|---|
+| `STRIPE_SECRET` | Clave secreta **de prueba** (`sk_test_...`) | Stripe Dashboard (modo prueba) → Developers → API keys |
+
+- Va solo en el `.env` local. Está vacía en `.env.example`. **Nunca** se sube al repo.
+- No hacen falta la clave publicable, el Stripe CLI ni webhooks: el usuario es redirigido a la página de pago de Stripe.
+
+### Cómo se confirma el pago
+
+1. `POST /spike/stripe/checkout` crea una sesión de Checkout con el monto fijo del **servidor** (1999 centavos = 19.99 USD) y redirige a Stripe.
+2. Al pagar, Stripe vuelve a `/spike/stripe/success?session_id=cs_test_...`.
+3. El servidor **consulta a Stripe** esa sesión (`payment_status === 'paid'`). Solo entonces muestra `Compra realizada exitosamente`. El `session_id` de la URL no se considera prueba de pago por sí solo.
+4. Si el usuario cancela, Stripe vuelve a `/spike/stripe/cancel`, que redirige a la página del spike sin cambios.
+
+Confirmar al volver de Stripe es una decisión del Sprint 1: si el usuario cierra la pestaña antes de volver, la app no se entera del pago. La confirmación con webhook queda para el Sprint 2.
+
+### Tarjetas de prueba
+
+Cualquier fecha futura y cualquier CVC.
+
+| Tarjeta | Resultado |
+|---|---|
+| `4242 4242 4242 4242` | Aprobada |
+| `4000 0000 0000 0002` | Rechazada (el error lo muestra Stripe en su página) |
+
+### Tests
+
+```
+php artisan test --filter=StripeSpikeTest
+```
+
+Los tests no llaman a Stripe: sustituyen `StripeGateway` por un mock.
