@@ -25,11 +25,13 @@ defineOptions({
 <template>
     <Head title="Register" />
 
+    <!-- novalidate: que el navegador no tape con sus avisos los mensajes exactos del servidor. -->
     <Form
         v-bind="store.form()"
         :reset-on-success="['password', 'password_confirmation']"
         v-slot="{ errors, processing }"
         class="flex flex-col gap-6"
+        novalidate
     >
         <div class="grid gap-6">
             <div class="grid gap-2">
@@ -48,12 +50,30 @@ defineOptions({
             </div>
 
             <div class="grid gap-2">
+                <Label for="age">Age</Label>
+                <Input
+                    id="age"
+                    type="number"
+                    required
+                    :tabindex="2"
+                    autocomplete="off"
+                    inputmode="numeric"
+                    name="age"
+                    min="1"
+                    max="120"
+                    step="1"
+                    placeholder="Age"
+                />
+                <InputError :message="errors.age" />
+            </div>
+
+            <div class="grid gap-2">
                 <Label for="email">Email address</Label>
                 <Input
                     id="email"
                     type="email"
                     required
-                    :tabindex="2"
+                    :tabindex="3"
                     autocomplete="email"
                     name="email"
                     placeholder="email@example.com"
@@ -66,7 +86,7 @@ defineOptions({
                 <PasswordInput
                     id="password"
                     required
-                    :tabindex="3"
+                    :tabindex="4"
                     autocomplete="new-password"
                     name="password"
                     placeholder="Password"
@@ -80,7 +100,7 @@ defineOptions({
                 <PasswordInput
                     id="password_confirmation"
                     required
-                    :tabindex="4"
+                    :tabindex="5"
                     autocomplete="new-password"
                     name="password_confirmation"
                     placeholder="Confirm password"
@@ -92,7 +112,7 @@ defineOptions({
             <Button
                 type="submit"
                 class="mt-2 w-full"
-                tabindex="5"
+                tabindex="6"
                 :disabled="processing"
                 data-test="register-user-button"
             >
@@ -106,7 +126,7 @@ defineOptions({
             <TextLink
                 :href="login()"
                 class="underline underline-offset-4"
-                :tabindex="6"
+                :tabindex="7"
                 >Log in</TextLink
             >
         </div>

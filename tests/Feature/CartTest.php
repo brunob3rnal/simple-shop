@@ -113,21 +113,33 @@ class CartTest extends TestCase
             ->where('lines.0.quantity', 2));
     }
 
-    public function test_the_cart_is_kept_when_a_visitor_registers_and_is_logged_in()
+    public function test_the_cart_is_kept_after_a_visitor_registers_and_then_logs_in()
     {
         $product = $this->product();
 
         $this->add($product);
+        $this->add($product);
 
+        // Registrarse NO inicia sesion: lleva al login y el carrito sigue en la sesion.
         $this->post(route('register.store'), [
             'name' => 'Nuevo Usuario',
+            'age' => 25,
             'email' => 'nuevo@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-        ]);
+        ])->assertRedirect(route('login'));
+
+        $this->assertGuest();
+        $this->assertSame([$product->id => 2], session('cart'));
+
+        // Al iniciar sesion con la cuenta nueva el carrito se conserva.
+        $this->post(route('login.store'), ['email' => 'nuevo@example.com', 'password' => 'password']);
 
         $this->assertAuthenticated();
-        $this->assertSame([$product->id => 1], session('cart'));
+        $this->assertSame([$product->id => 2], session('cart'));
+        $this->get(route('cart.show'))->assertInertia(fn (Assert $page) => $page
+            ->where('lines.0.quantity', 2)
+            ->where('total_cents', 3998));
     }
 
     // Criterio 6: al cerrar sesion, el carrito se vacia.
