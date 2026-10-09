@@ -3,6 +3,8 @@
 Laravel + Vue (Inertia). Moneda USD; los precios se manejan como enteros en centavos.
 Las specs están en `specs/` (Spec-Driven Development).
 
+El nombre de la tienda que se ve a la izquierda de la cabecera (`Mi Tienda`) sale de `APP_NAME` en el `.env`. Como lleva un espacio, el valor va **entre comillas**: `APP_NAME="Mi Tienda"` (sin comillas, Laravel no puede leer el `.env`).
+
 ## Catálogo (BRAVOBRAVO-13)
 
 El catálogo está en `/` y se ve sin iniciar sesión. Lista los productos ordenados por id, con el precio en USD (`$19.99`); se guardan como enteros en centavos (`price_cents`).

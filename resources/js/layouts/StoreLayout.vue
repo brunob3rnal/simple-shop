@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { Toaster } from '@/components/ui/sonner';
-import { dashboard, login } from '@/routes';
+import { dashboard, home, login } from '@/routes';
 import cart from '@/routes/cart';
 /* @chisel-registration */
 import { register } from '@/routes';
@@ -12,8 +12,13 @@ import { register } from '@/routes';
     <div
         class="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:p-8 dark:bg-[#0a0a0a] dark:text-[#EDEDEC]"
     >
-        <header class="mb-6 w-full max-w-4xl text-sm">
-            <nav class="flex items-center justify-end gap-4">
+        <header
+            class="mb-6 flex w-full max-w-4xl items-center justify-between text-sm"
+        >
+            <Link :href="home()" class="text-base font-medium">
+                {{ $page.props.name }}
+            </Link>
+            <nav class="flex items-center gap-4">
                 <Link
                     :href="cart.show()"
                     class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
