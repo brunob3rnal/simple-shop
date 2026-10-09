@@ -7,14 +7,20 @@ Las specs están en `specs/` (Spec-Driven Development).
 
 El catálogo está en `/` y se ve sin iniciar sesión. Lista los productos ordenados por id, con el precio en USD (`$19.99`); se guardan como enteros en centavos (`price_cents`).
 
-Para cargar los 3 productos (en desarrollo y en la demo):
+Para cargar los 3 productos:
 
 ```
 php artisan migrate
-php artisan db:seed --class=ProductSeeder
+php artisan db:seed
 ```
 
-`ProductSeeder` se puede ejecutar varias veces sin duplicar productos (ids fijos 1 a 3) y no usa Faker. Ojo: `php artisan db:seed` a secas también crea el usuario de prueba y falla si se repite (email único), por eso se usa `--class=ProductSeeder`.
+`php artisan db:seed` se puede ejecutar varias veces sin fallar ni duplicar nada: los productos tienen ids fijos 1 a 3 (se actualizan) y el usuario de prueba (`test@example.com`, contraseña `password`) solo se crea si no existe. Ninguno de los dos seeders usa Faker.
+
+En la demo conviene cargar solo los productos, para no crear un usuario con contraseña conocida:
+
+```
+php artisan db:seed --class=ProductSeeder
+```
 
 Si no hay productos, el catálogo muestra `No hay productos disponibles`.
 
