@@ -69,9 +69,9 @@ Cada criterio debe poder comprobarse con sí o no, y tener al menos un test.
 - La edad es opcional en la base de datos (cuentas que ya existen, como el usuario de prueba del seeder) y obligatoria en el formulario.
 - Tras registrarse la persona no queda con la sesión iniciada: se redirige a la pantalla de iniciar sesión con el mensaje `Cuenta creada`.
 - La verificación de email queda desactivada en el Sprint 1 y ninguna ruta depende de ella.
-- `Introduce un email válido.` también se usa cuando el email está vacío. _(propuesto)_
-- `La contraseña debe tener al menos 8 caracteres.` también se usa cuando la contraseña está vacía. _(propuesto)_
-- `La edad debe ser un número entero entre 1 y 120.` se usa para edad vacía, no entera o fuera de rango. _(propuesto)_
+- `Introduce un email válido.` también se usa cuando el email está vacío.
+- `La contraseña debe tener al menos 8 caracteres.` también se usa cuando la contraseña está vacía.
+- `La edad debe ser un número entero entre 1 y 120.` se usa para edad vacía, no entera o fuera de rango.
 - Un nombre o un email de más de 255 caracteres siguen mostrando el mensaje de Laravel en inglés: no hay texto definido.
 
 ## Preguntas abiertas
