@@ -1,12 +1,12 @@
 # Checkout con Stripe (modo prueba)
 
-| Campo | Valor |
-|---|---|
-| Jira | BRAVOBRAVO-15 |
-| Epic | Checkout y pagos |
-| Sprint | Sprint 1 |
-| Story points | 5 |
-| Estado | Por hacer |
+| Campo        | Valor            |
+| ------------ | ---------------- |
+| Jira         | BRAVOBRAVO-15    |
+| Epic         | Checkout y pagos |
+| Sprint       | Sprint 1         |
+| Story points | 5                |
+| Estado       | Por hacer        |
 
 ## Descripción
 
@@ -27,20 +27,20 @@ Permitir que un usuario con sesión pague el contenido de su carrito con una tar
 
 Cada criterio debe poder comprobarse con sí o no, y tener al menos un test.
 
-1. Desde el carrito hay un botón **"Pagar"** que inicia el pago con Stripe en modo prueba. *(texto del botón: propuesto)*
+1. Desde el carrito hay un botón **"Pagar"** que inicia el pago con Stripe en modo prueba. _(texto del botón: propuesto)_
 2. Si alguien sin sesión pulsa "Pagar", se le redirige a iniciar sesión, y al entrar vuelve al carrito con sus productos.
 3. El monto que se cobra es el total del carrito **calculado en el servidor** con los precios de la base de datos, en centavos USD. Nunca se usa un precio enviado por el navegador.
 4. Con una tarjeta de prueba aprobada se muestra el mensaje exacto: `Compra realizada exitosamente`
 5. Con una tarjeta de prueba rechazada, Stripe muestra su propio error en su página de pago y el usuario puede reintentar o cancelar. No se guarda ningún pedido y el carrito queda igual.
-6. Si el carrito está vacío, el botón "Pagar" no se muestra. *(propuesto)*
-7. Si el usuario cancela el pago en Stripe, vuelve al carrito sin cambios. *(propuesto)*
-8. Tras una compra exitosa, el carrito queda vacío. *(propuesto)*
+6. Si el carrito está vacío, el botón "Pagar" no se muestra. _(propuesto)_
+7. Si el usuario cancela el pago en Stripe, vuelve al carrito sin cambios. _(propuesto)_
+8. Tras una compra exitosa, el carrito queda vacío. _(propuesto)_
 9. Las claves de Stripe solo existen en `.env`. Ninguna clave aparece en el código ni en el repositorio.
 
 ## Mensajes exactos
 
-| Situación | Texto literal |
-|---|---|
+| Situación     | Texto literal                   |
+| ------------- | ------------------------------- |
 | Pago aprobado | `Compra realizada exitosamente` |
 
 El mensaje de tarjeta rechazada lo muestra Stripe en su página, no la tienda.
@@ -75,6 +75,7 @@ Ninguna por ahora.
 **Tope de tiempo:** 3 horas. Si se pasa, se para y se replantea.
 
 Criterios del spike:
+
 - Con un producto y un precio fijos, sin carrito ni login, un botón lleva a pagar con Stripe en modo prueba.
 - Con la tarjeta de prueba aprobada se vuelve a la app y se muestra `Compra realizada exitosamente`.
 - Con la tarjeta de prueba rechazada, Stripe muestra su error y al cancelar se vuelve al carrito sin cambios.
