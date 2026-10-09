@@ -35,6 +35,15 @@ Cada producto del catálogo tiene un botón "Agregar al carrito". El carrito se 
 - **Cantidades:** agregar un producto que ya está en el carrito sube su cantidad en 1, sin máximo. Quitar productos y cambiar cantidades no está en el Sprint 1.
 - **Sesión:** al iniciar sesión el carrito se conserva; al cerrar sesión se vacía. El carrito de un visitante se pierde a los 120 minutos sin actividad (`SESSION_LIFETIME`).
 
+## Registro (BRAVOBRAVO-11)
+
+El formulario de `/register` pide nombre, edad (entero de 1 a 120), email y contraseña (con su confirmación). Solo el registro exige mínimo 8 caracteres y ninguna otra regla; restablecer y cambiar la contraseña siguen con las reglas del starter hasta la Story del Sprint 2 "Contraseña segura con 7 criterios".
+
+- **Mensajes:** los errores de nombre, edad, email y contraseña salen en español con el texto exacto de `specs/registro.md`. El formulario lleva `novalidate` para que el navegador no los tape con sus propios avisos. El resto de la pantalla sigue en inglés (traducción completa: Story del Sprint 2 "Idioma de la interfaz").
+- **Tras registrarse** no se inicia sesión: se redirige al login con el mensaje `Cuenta creada`. El carrito del visitante se conserva (vive en la sesión) hasta que inicia sesión.
+- **Edad:** columna `age` (opcional en la base de datos, obligatoria en el formulario).
+- **Verificación de email desactivada** en el Sprint 1: ninguna ruta pide el email verificado y el registro no envía ningún correo. La columna `email_verified_at` se queda en la base de datos.
+
 ## Stripe (spike, BRAVOBRAVO-15)
 
 Prueba de concepto de pago con **Stripe Checkout alojado** en **modo prueba**.

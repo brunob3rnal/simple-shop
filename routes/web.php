@@ -19,7 +19,7 @@ Route::prefix('spike/stripe')->name('spike.stripe.')->controller(StripeSpikeCont
     Route::get('cancel', 'cancel')->name('cancel');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
 });
 

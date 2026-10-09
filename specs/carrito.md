@@ -83,7 +83,8 @@ Ninguna por ahora.
 
 ## Notas técnicas (verificar)
 
-- Al iniciar sesión, registrarse o pasar el reto 2FA, Fortify regenera el id de sesión pero **conserva sus datos**: el criterio 5 se cumple sin código extra. Al cerrar sesión llama a `session()->invalidate()`, que **borra todos los datos**: el criterio 6 también. Ambos necesitan test.
+- Al iniciar sesión o pasar el reto 2FA, Fortify regenera el id de sesión pero **conserva sus datos**: el criterio 5 se cumple sin código extra. Al cerrar sesión llama a `session()->invalidate()`, que **borra todos los datos**: el criterio 6 también. Ambos necesitan test.
+- Registrarse ya no inicia sesión (BRAVOBRAVO-11): lleva a la pantalla de iniciar sesión y tampoco invalida la sesión, así que el carrito sigue ahí hasta que la persona inicia sesión. Hay un test que lo comprueba (registrarse y luego iniciar sesión).
 - Driver de sesión `database`, vida de 120 minutos (`SESSION_LIFETIME`).
 - En la sesión se guarda solo el id del producto y la cantidad; los precios se leen siempre de la base de datos.
 - Si un producto desaparece de la base de datos, desaparece también del carrito.

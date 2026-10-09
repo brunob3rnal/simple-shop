@@ -7,6 +7,9 @@ namespace App\Providers;
 use App\Actions\Fortify\CreateNewUser;
 /* @end-chisel-registration */
 use App\Actions\Fortify\ResetUserPassword;
+/* @chisel-registration */
+use App\Http\Responses\RegisterResponse;
+/* @end-chisel-registration */
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -14,6 +17,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
+/* @chisel-registration */
+use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
+/* @end-chisel-registration */
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 
@@ -24,7 +30,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        /* @chisel-registration */
+        // Tras registrarse no se queda con la sesión iniciada: va al login con "Cuenta creada".
+        $this->app->singleton(RegisterResponseContract::class, RegisterResponse::class);
+        /* @end-chisel-registration */
     }
 
     /**
@@ -68,15 +77,10 @@ class FortifyServiceProvider extends ServiceProvider
             'status' => $request->session()->get('status'),
         ]));
 
-        /* @chisel-email-verification */
-        Fortify::verifyEmailView(fn (Request $request) => Inertia::render('auth/VerifyEmail', [
-            'status' => $request->session()->get('status'),
-        ]));
-        /* @end-chisel-email-verification */
-
         /* @chisel-registration */
         Fortify::registerView(fn () => Inertia::render('auth/Register', [
-            'passwordRules' => Password::defaults()->toPasswordRulesString(),
+            // El registro solo exige 8 caracteres (restablecer y cambiar contraseña siguen con Password::defaults()).
+            'passwordRules' => 'minlength: 8;',
         ]));
         /* @end-chisel-registration */
 
