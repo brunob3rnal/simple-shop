@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\Spike\StripeSpikeController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'Welcome')->name('home');
+Route::get('/', CatalogController::class)->name('home');
 
 // Spike de Stripe (BRAVOBRAVO-15): producto fijo, sin login ni carrito. Desechable.
 Route::prefix('spike/stripe')->name('spike.stripe.')->controller(StripeSpikeController::class)->group(function () {
