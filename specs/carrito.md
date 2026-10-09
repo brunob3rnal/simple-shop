@@ -3,7 +3,7 @@
 | Campo        | Valor         |
 | ------------ | ------------- |
 | Jira         | BRAVOBRAVO-14 |
-| Epic         | Por definir   |
+| Epic         | Carrito       |
 | Sprint       | Sprint 1      |
 | Story points | 3             |
 | Estado       | Por hacer     |
@@ -31,22 +31,32 @@ Lo usa: Checkout con Stripe (BRAVOBRAVO-15), que cobra lo que hay en el carrito.
 Cada criterio debe poder comprobarse con sí o no, y tener al menos un test.
 
 1. Cada producto tiene un botón **"Agregar al carrito"**.
-2. Al pulsar "Agregar al carrito", ese producto queda en el carrito. _(propuesto)_
-3. El carrito muestra los productos agregados y el total. _(propuesto)_
+2. Al pulsar "Agregar al carrito", ese producto queda en el carrito.
+3. El carrito muestra los productos agregados y el total: cada producto con su nombre, su cantidad, su precio unitario y su subtotal (cantidad × precio), y debajo el total. Todos con el formato `$19.99`.
 4. Cualquier visitante puede agregar productos sin iniciar sesión.
 5. Al iniciar sesión, el carrito conserva sus productos.
-6. Al cerrar sesión, el carrito se vacía. _(propuesto, por confirmar)_
-7. El total se calcula en el servidor con los precios de la base de datos, en centavos USD. Nunca se usa un precio enviado por el navegador. _(propuesto)_
+6. Al cerrar sesión, el carrito se vacía.
+7. Los subtotales y el total se calculan en el servidor con los precios de la base de datos, en centavos USD. Nunca se usa un precio enviado por el navegador.
+8. Si se agrega un producto que ya está en el carrito, su cantidad sube en 1. No hay máximo de unidades.
+9. El carrito tiene su propia página en `/carrito`.
+10. En la cabecera hay un enlace **"Carrito"**, sin contador, que lleva a `/carrito`.
+11. Al agregar un producto el usuario se queda en el catálogo y ve el texto exacto: `Producto agregado al carrito`
+12. Con el carrito vacío se muestra el texto exacto: `Tu carrito está vacío`
 
 ## Mensajes exactos
 
-| Situación              | Texto literal        |
-| ---------------------- | -------------------- |
-| Botón en cada producto | `Agregar al carrito` |
+| Situación              | Texto literal                  |
+| ---------------------- | ------------------------------ |
+| Botón en cada producto | `Agregar al carrito`           |
+| Enlace en la cabecera  | `Carrito`                      |
+| Producto agregado      | `Producto agregado al carrito` |
+| Carrito vacío          | `Tu carrito está vacío`        |
 
 ## Fuera de alcance (Sprint 1)
 
-- Guardar el carrito en la base de datos: pasa en el Sprint 2.
+- Guardar el carrito en la base de datos: Story del Sprint 2.
+- Quitar productos y cambiar cantidades: quedan fuera del Sprint 1 (decidido).
+- Contador de productos en la cabecera: va al Sprint 2.
 - Pagar: lo cubre la Story de Checkout (BRAVOBRAVO-15).
 - Stock o inventario de productos. _(propuesto)_
 - Cupones, envíos e impuestos. _(propuesto)_
@@ -56,21 +66,21 @@ Cada criterio debe poder comprobarse con sí o no, y tener al menos un test.
 - El carrito vive en la sesión de Laravel durante el Sprint 1.
 - La lógica del carrito va en una sola clase, `CartService`.
 - Cualquier visitante puede agregar productos sin iniciar sesión.
-- El carrito se conserva al iniciar sesión.
+- El carrito se conserva al iniciar sesión y se vacía al cerrar sesión.
+- Agregar un producto que ya está en el carrito sube su cantidad en 1, sin máximo en el Sprint 1.
+- El carrito tiene su propia página en `/carrito`. En la cabecera hay un enlace "Carrito", sin contador (el contador va al Sprint 2).
+- Al agregar un producto el usuario se queda en el catálogo y ve el aviso `Producto agregado al carrito`.
+- En la página del carrito, cada producto muestra nombre, cantidad, precio unitario y subtotal, y abajo el total. Con el carrito vacío se muestra `Tu carrito está vacío`.
+- El carrito de un visitante se pierde a los 120 minutos sin actividad (caducidad de la sesión): es aceptable en el Sprint 1. Guardarlo en la base de datos es una Story del Sprint 2.
 
 ## Preguntas abiertas
 
-1. Si se agrega un producto que ya está en el carrito, ¿sube la cantidad (×2, y el total la multiplica) o no se agrega otra vez? Si hay cantidades, ¿hay un máximo por producto?
-2. ¿Se pueden quitar productos o cambiar la cantidad desde el carrito, o queda fuera de esta Story?
-3. ¿Dónde se ve el carrito: una página propia (por ejemplo `/carrito`), un panel lateral o ambos? ¿Hay enlace o contador en la cabecera?
-4. ¿Qué ve el usuario justo después de pulsar "Agregar al carrito": se queda en el catálogo con un aviso, o va al carrito? ¿Hay un texto exacto?
-5. ¿Qué texto exacto se muestra cuando el carrito está vacío?
-6. ¿Confirmas que al cerrar sesión el carrito se vacía? (Es lo que hace Laravel por defecto.) Y un visitante que no inicia sesión pierde el carrito al caducar su sesión (120 minutos sin actividad): ¿es aceptable?
-7. ¿Cuál es el Epic? El Sprint 1 está deducido de `specs/checkout.md` ("el carrito vive en la sesión durante el Sprint 1"); ¿lo confirmas?
+Ninguna por ahora.
 
 ## Notas técnicas (verificar)
 
 - Al iniciar sesión, registrarse o pasar el reto 2FA, Fortify regenera el id de sesión pero **conserva sus datos**: el criterio 5 se cumple sin código extra. Al cerrar sesión llama a `session()->invalidate()`, que **borra todos los datos**: el criterio 6 también. Ambos necesitan test.
 - Driver de sesión `database`, vida de 120 minutos (`SESSION_LIFETIME`).
-- En la sesión se guarda solo el id del producto (y la cantidad, si la hay); los precios se leen siempre de la base de datos.
+- En la sesión se guarda solo el id del producto y la cantidad; los precios se leen siempre de la base de datos.
+- Las líneas del carrito salen en el orden en que se agregaron. Si un producto desaparece de la base de datos, desaparece también del carrito.
 - El checkout necesitará de `CartService`: el contenido del carrito, el total en centavos, saber si está vacío y vaciarlo tras pagar.
