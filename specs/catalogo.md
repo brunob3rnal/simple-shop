@@ -60,7 +60,7 @@ Cada criterio debe poder comprobarse con sí o no, y tener al menos un test.
 - El seeder se puede ejecutar varias veces sin duplicar productos, y se usa en desarrollo y en la demo.
 - Si no hay productos, se muestra `No hay productos disponibles`.
 - La página de inicio conserva la cabecera con los enlaces "Log in / Register / Dashboard" de la bienvenida.
-- Productos del seeder _(propuesto: datos de ejemplo para la demo, se pueden cambiar)_:
+- Productos del seeder:
 
 | Id  | Nombre           | Precio (centavos) | Se muestra |
 | --- | ---------------- | ----------------- | ---------- |
