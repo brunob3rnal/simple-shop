@@ -10,8 +10,8 @@ Página del spike: `/spike/stripe` (producto y precio fijos, sin login ni carrit
 
 ### Claves necesarias
 
-| Variable | Qué es | Dónde se obtiene |
-|---|---|---|
+| Variable        | Qué es                                      | Dónde se obtiene                                       |
+| --------------- | ------------------------------------------- | ------------------------------------------------------ |
 | `STRIPE_SECRET` | Clave secreta **de prueba** (`sk_test_...`) | Stripe Dashboard (modo prueba) → Developers → API keys |
 
 - Va solo en el `.env` local. Está vacía en `.env.example`. **Nunca** se sube al repo.
@@ -30,9 +30,9 @@ Confirmar al volver de Stripe es una decisión del Sprint 1: si el usuario cierr
 
 Cualquier fecha futura y cualquier CVC.
 
-| Tarjeta | Resultado |
-|---|---|
-| `4242 4242 4242 4242` | Aprobada |
+| Tarjeta               | Resultado                                           |
+| --------------------- | --------------------------------------------------- |
+| `4242 4242 4242 4242` | Aprobada                                            |
 | `4000 0000 0000 0002` | Rechazada (el error lo muestra Stripe en su página) |
 
 ### Tests
