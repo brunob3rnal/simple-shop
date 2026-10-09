@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
+use App\Services\Payments\StripeGateway;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use RuntimeException;
+use Stripe\StripeClient;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +18,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(StripeGateway::class, function (): StripeGateway {
+            $secret = config('services.stripe.secret');
+
+            if (! is_string($secret) || $secret === '') {
+                throw new RuntimeException('Falta STRIPE_SECRET en .env (clave secreta de prueba de Stripe).');
+            }
+
+            return new StripeGateway(new StripeClient($secret));
+        });
     }
 
     /**
