@@ -3,6 +3,8 @@
 Laravel + Vue (Inertia). Moneda USD; los precios se manejan como enteros en centavos.
 Las specs están en `specs/` (Spec-Driven Development).
 
+El nombre de la tienda que se ve a la izquierda de la cabecera (`Mi Tienda`) sale de `APP_NAME` en el `.env`. Como lleva un espacio, el valor va **entre comillas**: `APP_NAME="Mi Tienda"` (sin comillas, Laravel no puede leer el `.env`).
+
 ## Catálogo (BRAVOBRAVO-13)
 
 El catálogo está en `/` y se ve sin iniciar sesión. Lista los productos ordenados por id, con el precio en USD (`$19.99`); se guardan como enteros en centavos (`price_cents`).
@@ -23,6 +25,15 @@ php artisan db:seed --class=ProductSeeder
 ```
 
 Si no hay productos, el catálogo muestra `No hay productos disponibles`.
+
+## Carrito (BRAVOBRAVO-14)
+
+Cada producto del catálogo tiene un botón "Agregar al carrito". El carrito se ve en `/carrito` (enlace "Carrito" en la cabecera) y lo puede usar cualquier visitante, sin iniciar sesión.
+
+- **Dónde vive:** en la sesión de Laravel (Sprint 1); en el Sprint 2 pasará a la base de datos. Toda la lógica está en `App\Services\CartService`.
+- **Qué guarda:** solo el id del producto y la cantidad. Los precios, subtotales y el total se calculan siempre en el servidor con los precios de la base de datos, en centavos USD.
+- **Cantidades:** agregar un producto que ya está en el carrito sube su cantidad en 1, sin máximo. Quitar productos y cambiar cantidades no está en el Sprint 1.
+- **Sesión:** al iniciar sesión el carrito se conserva; al cerrar sesión se vacía. El carrito de un visitante se pierde a los 120 minutos sin actividad (`SESSION_LIFETIME`).
 
 ## Stripe (spike, BRAVOBRAVO-15)
 
