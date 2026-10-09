@@ -42,6 +42,7 @@ Cada criterio debe poder comprobarse con sí o no, y tener al menos un test.
 10. En la cabecera hay un enlace **"Carrito"**, sin contador, que lleva a `/carrito`.
 11. Al agregar un producto el usuario se queda en el catálogo y ve el texto exacto: `Producto agregado al carrito`
 12. Con el carrito vacío se muestra el texto exacto: `Tu carrito está vacío`
+13. En la cabecera, a la izquierda, está el nombre de la tienda, `Mi Tienda`, con un enlace a `/`. Se ve igual para visitantes y para usuarios con sesión.
 
 ## Mensajes exactos
 
@@ -49,6 +50,7 @@ Cada criterio debe poder comprobarse con sí o no, y tener al menos un test.
 | ---------------------- | ------------------------------ |
 | Botón en cada producto | `Agregar al carrito`           |
 | Enlace en la cabecera  | `Carrito`                      |
+| Nombre de la tienda    | `Mi Tienda`                    |
 | Producto agregado      | `Producto agregado al carrito` |
 | Carrito vacío          | `Tu carrito está vacío`        |
 
@@ -68,9 +70,11 @@ Cada criterio debe poder comprobarse con sí o no, y tener al menos un test.
 - Cualquier visitante puede agregar productos sin iniciar sesión.
 - El carrito se conserva al iniciar sesión y se vacía al cerrar sesión.
 - Agregar un producto que ya está en el carrito sube su cantidad en 1, sin máximo en el Sprint 1.
+- Las líneas del carrito salen en el orden en que se agregaron (no por nombre ni por id).
 - El carrito tiene su propia página en `/carrito`. En la cabecera hay un enlace "Carrito", sin contador (el contador va al Sprint 2).
 - Al agregar un producto el usuario se queda en el catálogo y ve el aviso `Producto agregado al carrito`.
 - En la página del carrito, cada producto muestra nombre, cantidad, precio unitario y subtotal, y abajo el total. Con el carrito vacío se muestra `Tu carrito está vacío`.
+- La cabecera lleva a la izquierda el nombre de la tienda, `Mi Tienda`, con enlace a `/`. El nombre sale de `APP_NAME`, así que se cambia en un solo sitio.
 - El carrito de un visitante se pierde a los 120 minutos sin actividad (caducidad de la sesión): es aceptable en el Sprint 1. Guardarlo en la base de datos es una Story del Sprint 2.
 
 ## Preguntas abiertas
@@ -82,5 +86,6 @@ Ninguna por ahora.
 - Al iniciar sesión, registrarse o pasar el reto 2FA, Fortify regenera el id de sesión pero **conserva sus datos**: el criterio 5 se cumple sin código extra. Al cerrar sesión llama a `session()->invalidate()`, que **borra todos los datos**: el criterio 6 también. Ambos necesitan test.
 - Driver de sesión `database`, vida de 120 minutos (`SESSION_LIFETIME`).
 - En la sesión se guarda solo el id del producto y la cantidad; los precios se leen siempre de la base de datos.
-- Las líneas del carrito salen en el orden en que se agregaron. Si un producto desaparece de la base de datos, desaparece también del carrito.
+- Si un producto desaparece de la base de datos, desaparece también del carrito.
+- El nombre de la tienda lo comparte Inertia como la prop `name` (`config('app.name')`, es decir `APP_NAME`). En `.env.example` vale `"Mi Tienda"`; cada `.env` local debe llevar el mismo valor, si no la cabecera muestra el nombre que tenga.
 - El checkout necesitará de `CartService`: el contenido del carrito, el total en centavos, saber si está vacío y vaciarlo tras pagar.
