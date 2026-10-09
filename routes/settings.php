@@ -8,7 +8,10 @@ use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
-    Route::redirect('settings', '/settings/profile');
+    // Solo GET/HEAD: Route::redirect() responde a todos los verbos, incluido QUERY,
+    // que Wayfinder aun no tipa (laravel/wayfinder#324). Volver a Route::redirect
+    // cuando exista una version con soporte de QUERY.
+    Route::get('settings', fn () => to_route('profile.edit'));
 
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
