@@ -3,6 +3,27 @@
 Laravel + Vue (Inertia). Moneda USD; los precios se manejan como enteros en centavos.
 Las specs están en `specs/` (Spec-Driven Development).
 
+## Catálogo (BRAVOBRAVO-13)
+
+El catálogo está en `/` y se ve sin iniciar sesión. Lista los productos ordenados por id, con el precio en USD (`$19.99`); se guardan como enteros en centavos (`price_cents`).
+
+Para cargar los 3 productos:
+
+```
+php artisan migrate
+php artisan db:seed
+```
+
+`php artisan db:seed` se puede ejecutar varias veces sin fallar ni duplicar nada: los productos tienen ids fijos 1 a 3 (se actualizan) y el usuario de prueba (`test@example.com`, contraseña `password`) solo se crea si no existe. Ninguno de los dos seeders usa Faker.
+
+En la demo conviene cargar solo los productos, para no crear un usuario con contraseña conocida:
+
+```
+php artisan db:seed --class=ProductSeeder
+```
+
+Si no hay productos, el catálogo muestra `No hay productos disponibles`.
+
 ## Stripe (spike, BRAVOBRAVO-15)
 
 Prueba de concepto de pago con **Stripe Checkout alojado** en **modo prueba**.

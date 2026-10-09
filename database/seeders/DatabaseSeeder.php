@@ -15,11 +15,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(ProductSeeder::class);
+
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Repetible: si el usuario ya existe no se vuelve a crear ni se modifica.
+        // Sin factory (usa Faker, que solo existe en desarrollo) para que corra también en la demo.
+        User::unguarded(fn () => User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => 'password',
+                'email_verified_at' => now(),
+            ],
+        ));
     }
 }
